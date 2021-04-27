@@ -23,9 +23,10 @@ def fillStock(stockArray, stockData):
     #numSales = len(stockData)
     numSales = stockData.max_row
     print("number of sales: ", numSales)
-    while i < numSales:
+    while i <= numSales:
         stockArray.append(stockData.cell(row = i, column = 2).value)
         i = i + 1
+    stockArray.reverse()
     print(stockArray)
     return stockArray
 fillStock(googleStock, google_obj)
