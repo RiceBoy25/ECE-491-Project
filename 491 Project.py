@@ -10,13 +10,8 @@ import xlrd
 import openpyxl
 
 #https://www.geeksforgeeks.org/python-reading-excel-file-using-openpyxl-module/
-googlePath = "Google 1 Month.xlsx"
-google = openpyxl.load_workbook(googlePath)
-google_obj = google.active
-stock = google_obj.cell(row = 2, column = 2)
-print(stock.value)
+path = ""
 
-googleStock = []
 
 def fillStock(stockArray, stockData):
     i = 2
@@ -29,11 +24,7 @@ def fillStock(stockArray, stockData):
     stockArray.reverse()
     print(stockArray)
     return stockArray
-fillStock(googleStock, google_obj)
 
-size = 2 #filter size
-weights = [1] * size
-print("weights: ", weights[1])
 def predict(stockArray, weights, index):
     i = 0
     total = 0
@@ -42,7 +33,7 @@ def predict(stockArray, weights, index):
         i = i + 1
     print(total)
     return total
-predict(googleStock, weights, 1)
+#predict(dataStock, weights, 1)
 
 def errorRate(predicted, actual):
     return actual - predicted
@@ -92,5 +83,46 @@ def master(stockArray, stockData, size):
         #print("Accuracy: ", (predicted / stockArray[index]), "\n")
         print("Accuracy: ", abs(1 - (abs(predicted - stockArray[index])/stockArray[index])), "\n")
 
-master(googleStock, google_obj, 2)
+print("Starting Program...")
+while 1:
+    userChoice = input("Enter stock or crypto name, 0 to exit\n")
+    if userChoice == "Google" or userChoice == "Apple" or userChoice == "Doge" :
+        quoteLength = input("Enter quote length in months: 1m, 3m, or 6m\n")
+        userFilter = input("Enter filter size\n")
+        path = userChoice + quoteLength + ".xlsx" 
+        data = openpyxl.load_workbook(path)
+        data_obj = data.active
+        stock = data_obj.cell(row = 2, column = 2)
+        dataStock = []
+        fillStock(dataStock, data_obj)
+        size = int(userFilter) #filter size
+        weights = [1] * size
+        print("weights: ", weights[1])
+        master(dataStock, data_obj, 2)
+    elif userChoice == "0":
+        print("Ending program...")
+        break
+    else:
+        print("Invalid entry... Try again")
+        
+
+
+
+
+
+
+
+"""
+Code block tools...................................
+"""
+
+"""
+fillStock(dataStock, data_obj)
+size = 2 #filter size
+weights = [1] * size
+print("weights: ", weights[1])
+
+master(dataStock, data_obj, 2)
+"""
+
     
