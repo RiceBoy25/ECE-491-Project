@@ -64,6 +64,7 @@ def newWeight(old, new, size):
     return finalWeight
 
 def master(stockArray, stockData, size):
+    totalAccuracy = 0
     stockArray = fillStock(stockArray, stockData)
     #size refers to the number of data entries being fed into the LMS
     #algorithm at a single time
@@ -80,8 +81,10 @@ def master(stockArray, stockData, size):
         weights = newWeight(weights, weightSub, size)
         index = index + 1
         print(index, ": ", "Actual: ", stockArray[index], " Predicted: ", predicted)
-        #print("Accuracy: ", (predicted / stockArray[index]), "\n")
-        print("Accuracy: ", abs(1 - (abs(predicted - stockArray[index])/stockArray[index])), "\n")
+        accuracy = abs(1 - (abs(predicted - stockArray[index])/stockArray[index]))
+        totalAccuracy += accuracy
+        print("Accuracy: ", accuracy , "\n")
+    print("Average Accuracy: ", (totalAccuracy / index) * 100, "% \n") 
 
 print("Starting Program...")
 while 1:
