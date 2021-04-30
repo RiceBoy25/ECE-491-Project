@@ -63,6 +63,13 @@ def newWeight(old, new, size):
         i = i + 1
     return finalWeight
 
+def getAccuracy(pred, actual):
+    
+    if pred > actual:
+        return actual / pred
+    else:
+        return pred / actual
+
 def master(stockArray, stockData, size):
     totalAccuracy = 0
     stockArray = fillStock(stockArray, stockData)
@@ -81,7 +88,8 @@ def master(stockArray, stockData, size):
         weights = newWeight(weights, weightSub, size)
         index = index + 1
         print(index, ": ", "Actual: ", stockArray[index], " Predicted: ", predicted)
-        accuracy = abs(1 - (abs(predicted - stockArray[index])/stockArray[index]))
+        #accuracy = abs(1 - (abs(predicted - stockArray[index])/stockArray[index]))
+        accuracy = getAccuracy(predicted, stockArray[index])
         totalAccuracy += accuracy
         print("Accuracy: ", accuracy , "\n")
     print("Average Accuracy: ", (totalAccuracy / index) * 100, "% \n") 
@@ -89,7 +97,7 @@ def master(stockArray, stockData, size):
 print("Starting Program...")
 while 1:
     userChoice = input("Enter stock or crypto name, 0 to exit\n")
-    if userChoice == "Google" or userChoice == "Apple" or userChoice == "Doge" :
+    if userChoice == "Google" or userChoice == "Apple" or userChoice == "Doge" or userChoice == "Amazon":
         quoteLength = input("Enter quote length in months: 1m, 3m, or 6m\n")
         userFilter = input("Enter filter size\n")
         path = userChoice + quoteLength + ".xlsx" 
@@ -101,7 +109,8 @@ while 1:
         size = int(userFilter) #filter size
         weights = [1] * size
         print("weights: ", weights[1])
-        master(dataStock, data_obj, 2)
+        master(dataStock, data_obj, size)        
+        
     elif userChoice == "0":
         print("Ending program...")
         break
